@@ -62,15 +62,26 @@ def inputdata(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     data_to_save = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     #print(f'>> I: {Name.to_str(name)}, {param}')
     #print(f'<< D: {Name.to_str(name)}')
-    print(f"Data yang terkait dengan nama '{nama_to_search}':")
+    #print(f"Data yang terkait dengan nama '{nama_to_search}':")
     data_dict = json.loads(data_to_save)
 
-    doc_id = data_dict
-    doc_ref = db.collection("datapasien").document(doc_id)
-    doc = doc_ref.get()
-    new_record_ref = doc.add(data_dict)
-    record_id = new_record_ref[1].id
-    print(f"Data yang terkait dengan nama '{record_id}':") 
+    document_name = data_dict.get("nama")
+
+    if document_name:
+       doc_ref = db.collection("datapasien").document(document_name)
+       doc_ref.set(data_dict)
+       print(f"Data Sukses tersimpan '{document_name}' to Firestore.")
+    else:
+       print("Tidak ada nama di JSON, tidak bisa tersimpan.")
+    
+    #fields = list(data_dict.keys())
+    #values = list(data_dict.values())
+    #doc_id = data_dict
+    #doc_ref = db.collection("datapasien").document(doc_id)
+    #doc = doc_ref.get()
+    #new_record_ref = doc_ref.add(data_dict)
+    #record_id = new_record_ref[1].id
+    #print(f"Data yang terkait dengan nama '{record_id}':") 
 print("Producer running, press CTRL+C to stop")
 
 if __name__ == '__main__':

@@ -59,11 +59,18 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
 
 @app.route('/data/inputdata')
 def inputdata(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
-    nama_to_search = str(bytes(ap)).split('b\'')[1].split('\'')[0]
+    data_to_save = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     #print(f'>> I: {Name.to_str(name)}, {param}')
     #print(f'<< D: {Name.to_str(name)}')
     print(f"Data yang terkait dengan nama '{nama_to_search}':")
+    data_dict = json.loads(data_to_save)
 
+    doc_id = data_dict
+    doc_ref = db.collection("datapasien").document(doc_id)
+    doc = doc_ref.get()
+    new_record_ref = doc.add(data_dict)
+    record_id = new_record_ref[1].id
+    print(f"Data yang terkait dengan nama '{record_id}':") 
 print("Producer running, press CTRL+C to stop")
 
 if __name__ == '__main__':

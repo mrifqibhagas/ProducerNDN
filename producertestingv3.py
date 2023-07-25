@@ -100,10 +100,11 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
 
     konsultasi_ref = db.collection("datapasien").document(namajson)
 
+    doc = konsultasi_ref.get()
     #matching_data = []  # Initialize matching_data as an empty list
 
-    if konsultasi_dict.exists:
-        datakonsul = konsultasi_ref.get().to_dict()
+    if doc.exists:
+        datakonsul = doc.to_dict()
         # Access and check the "nama" parameter
         nama = datakonsul.get("nama")
         hp = datakonsul.get("hp")
@@ -111,8 +112,8 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
         print("Parameter Check.")
 
         if nama and hp and penyakit and namajson == nama and hpjson == hp and penyakitjson == penyakit:
-            konsultasi_ref.set(data_dict)
-            print(f"Data Sukses tersimpan '{document_name}' to Firestore.")
+            konsultasi_ref.update(konsultasi_dict)
+            print(f"Data Sukses tersimpan '{nama}' to Firestore.")
             #print("Database Check.")
 
 print("Producer running, press CTRL+C to stop")

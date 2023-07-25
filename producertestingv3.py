@@ -88,27 +88,33 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     hasil_konsultasi = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
 
+    #konsultasi_dict = json.loads(hasil_konsultasi)#Konversi JSON 
     #doc_konsultasi = hasil_konsultasi
+    #konsultasi_ref = db.collection("datapasien").document(doc_konsultasi)
+    #konsultasi = konsultasi_ref.get()
+    #konsultasi_str = ""
+    konsultasi_dict = json.loads(hasil_konsultasi) #Konversi JSON
+    namajson = konsultasi_dict.get("nama") #Mengambil data nama
+    hpjson = konsultasi_dict.get("hp") #Mengambil data no hp
+    penyakitjson = konsultasi_dict.get("penyakit")#Mengambil data penyakit
 
-def update_firestore_data(name, hp, penyakit, jadwalkemo, terakhirkemo, jadwalkrio, terakhirkrio):
-    # Mencari dokumen dengan data yang sesuai dengan parameter yang diberikan
-    matching_data = db.collection("datapasien").where("nama", "==", name).where("hp", "==", hp).where("penyakit", "==", penyakit).get()
+    konsultasi_ref = db.collection("datapasien").document(namajson)
 
-    if not matching_data:
-        print("Tidak ada data yang cocok dengan parameter yang diberikan")
-        return
+    #matching_data = []  # Initialize matching_data as an empty list
 
-    # Jika ada data yang cocok, tambahkan data baru ke dokumen tersebut
-    for data in matching_data:
-        data_ref = db.collection("datapasien").document(data.id)
-        data_ref.update({
-            "jadwalkemo": jadwalkemo,
-            "terakhirkemo": terakhirkemo,
-            "jadwalkrio": jadwalkrio,
-            "terakhirkrio": terakhirkrio
-        })
-        print("Data berhasil ditambahkan")
-        
+    if konsultasi_dict.exists:
+        datakonsul = konsultasi_ref.get().to_dict()
+        # Access and check the "nama" parameter
+        nama = datakonsul.get("nama")
+        hp = datakonsul.get("hp")
+        penyakit = datakonsul.get("penyakit")
+        print("Parameter Check.")
+
+        if nama and hp and penyakit and namajson == nama and hpjson == hp and penyakitjson == penyakit:
+            konsultasi_ref.set(data_dict)
+            print(f"Data Sukses tersimpan '{document_name}' to Firestore.")
+            #print("Database Check.")
+
 print("Producer running, press CTRL+C to stop")
 
 if __name__ == '__main__':

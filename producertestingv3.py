@@ -9,7 +9,6 @@ import logging
 
 cred = credentials.Certificate("ndn-firebase-cubit-firebase-adminsdk-lkrlf-b2de4ea5a5.json")
 firebase_admin.initialize_app(cred)
-#firebase_admin.initialize_app(cred, {'databaseURL': "https://medical-record-7557a-default-rtdb.asia-southeast1.firebasedatabase.app"})
 
 db = firestore.client()
 app = NDNApp()
@@ -38,7 +37,15 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
                 #   "ID": record_id,
                   "Nama": data.get("nama"),
                   "Umur": data.get("umur"),
+                  "Alamat": data.get("alamat"),
+                  "Nomor HP": data.get("hp"),
+                  "Golongan Darah": data.get("goldar"),
+                  "Jenis Kelamin": data.get("sex"),
                   "Penyakit": data.get("penyakit"),
+                  "Jadwal Krioterapi": data.get("jadwalkrio"),
+                  "Terakhir Krioterapi": data.get("terakhirkrio"),
+                  "Jadwal Kemoterapi": data.get("jadwalkemo"),
+                  "Terakhir Kemoterapi": data.get("terakhirkemo"),
                 })
             print(f"Data yang terkait dengan nama '{nama_to_search}':")
             # Menggunakan json.dumps untuk mengubah data menjadi string format JSON

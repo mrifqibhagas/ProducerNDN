@@ -126,10 +126,10 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
 
 @app.route('/data/datapasien')
 def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
-    hasil_konsultasi = str(bytes(ap)).split('b\'')[1].split('\'')[0]
+    data_pasien = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
 
-    doc_id = nama_to_search
+    doc_id = data_pasien
     doc_ref = db.collection("datapasien").document(doc_id)
     doc = doc_ref.get()
 

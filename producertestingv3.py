@@ -77,7 +77,7 @@ def inputdata(name: FormalName, param: InterestParam, ap: Optional[BinaryStr]):
     if document_name:
        doc_ref = db.collection("datapasien").document(document_name)
        doc_ref.set(data_dict)
-       print(f"Data Sukses tersimpan '{document_name}' to Firestore.")
+       print(f"Data Monitoring '{document_name}' berhasil dikirim.")
     else:
        print("Tidak ada nama di JSON, tidak bisa tersimpan.")
     
@@ -120,7 +120,7 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
 
         if nama and hp and penyakit and namajson == nama and hpjson == hp and penyakitjson == penyakit:
             konsultasi_ref.update(konsultasi_dict)
-            print(f"Data Sukses tersimpan '{nama}' to Firestore.")
+            print(f"Data Konsultasi Sukses tersimpan '{nama}' to Firestore.")
             #print("Database Check.")
 
 print("Producer running, press CTRL+C to stop")

@@ -130,8 +130,8 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     print(f'>> I: {Name.to_str(name)}, {param}')
 
     doc_id = data_pasien
-    doc_ref = db.collection("datapasien").document(doc_id)
-    doc = doc_ref.get()
+    doc_ref = db.collection("datapasien").document(doc_id) #bagian ini salah sepertinya
+    doc = doc_ref.get() #ini juga sepertinya
 
     # Inisialisasi list untuk menyimpan hasil pencarian yang cocok
     matching_data = []

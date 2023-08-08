@@ -129,20 +129,20 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     data_pasien = str(bytes(ap)).split('b\'')[1].split('\'')[0]
     print(f'>> I: {Name.to_str(name)}, {param}')
 
-    doc_id = data_pasien
-    doc_ref = db.collection("datapasien").document(doc_id) #bagian ini salah sepertinya
-    doc = doc_ref.get() #ini juga sepertinya
+    #doc_id = data_pasien
+    #doc_ref = db.collection("datapasien").document(doc_id) #bagian ini salah sepertinya
+    #doc = doc_ref.get() #ini juga sepertinya
+    collection_ref = db.collection("datapasien")
+    all_documents = collection_ref.stream()
 
     # Inisialisasi list untuk menyimpan hasil pencarian yang cocok
-    matching_data = []
+    document_names = []
 
-    if doc.exists:
-        data = doc.to_dict()
-        # Tambahkan data ke list matching_data
-        matching_data.append(data)
+    for doc in all_documents:
+        document_names.append(doc.id)
     
     # Ubah list matching_data menjadi format JSON
-    json_data = json.dumps(matching_data)
+    json_data = json.dumps(document_names)
     print(json_data)
 
     content = json_data.encode()

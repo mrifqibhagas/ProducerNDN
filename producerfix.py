@@ -102,8 +102,8 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
     #konsultasi_str = ""
     konsultasi_dict = json.loads(hasil_konsultasi) #Konversi JSON
     namajson = konsultasi_dict.get("nama") #Mengambil data nama
-    hpjson = konsultasi_dict.get("hp") #Mengambil data no hp
-    penyakitjson = konsultasi_dict.get("penyakit")#Mengambil data penyakit
+    #hpjson = konsultasi_dict.get("hp") #Mengambil data no hp
+    #penyakitjson = konsultasi_dict.get("penyakit")#Mengambil data penyakit
 
     konsultasi_ref = db.collection("datapasien").document(namajson)
 
@@ -114,11 +114,11 @@ def on_interest(name: FormalName, param: InterestParam, ap: Optional[BinaryStr])
         datakonsul = doc.to_dict()
         # Access and check the "nama" parameter
         nama = datakonsul.get("nama")
-        hp = datakonsul.get("hp")
-        penyakit = datakonsul.get("penyakit")
+        #hp = datakonsul.get("hp")
+        #penyakit = datakonsul.get("penyakit")
         print("Parameter Check.")
 
-        if nama and hp and penyakit and namajson == nama and hpjson == hp and penyakitjson == penyakit:
+        if nama and namajson == nama :
             konsultasi_ref.update(konsultasi_dict)
             print(f"Data Konsultasi Sukses tersimpan '{nama}' to Firestore.")
             #print("Database Check.")
